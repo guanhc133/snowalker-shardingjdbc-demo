@@ -13,25 +13,25 @@
 
 个人心得：
 
-com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.util.StringUtil
-取ASICC码是为了数值运算，因为传进来的主键不是数字
-通过该ASCII码对库取商，对表取余，得到库表下标
-对库--获得id的ASICC码值，
- 1,值和表的数量取余，余数肯定在表的数量范围内，
- 2,eg:总共16个表（4库16表，每个库分别4个用户表），任意数字和16取余，其范围必定在0-15范围（所有库中表的范围也在0-15）
- 3,以上获取的余值和库的数（4）取商，因为余值范围0-15，所以商的范围为0-3 （库的范围是 ds00,ds01.....ds03）
- 所以无论怎么计算都不会超过库表数量的边界
+com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.util.StringUtil<br />
+> 取ASICC码是为了数值运算，因为传进来的主键不是数字<br />
+> 通过该ASCII码对库取商，对表取余，得到库表下标<br />
+> 对库--获得id的ASICC码值，<br />
+>  1,值和表的数量取余，余数肯定在表的数量范围内，<br />
+ > 2,eg:总共16个表（4库16表，每个库分别4个用户表），任意数字和16取余，其范围必定在0-15范围（所有库中表的范围也在0-15）<br />
+>  3,以上获取的余值和库的数（4）取商，因为余值范围0-15，所以商的范围为0-3 （库的范围是 ds00,ds01.....ds03）<br />
+ > 所以无论怎么计算都不会超过库表数量的边界<br />
 
-对表--获得id的ASICC码
- 同1,2
- 3,以上获取的余值和每个库中的表的数量（总表数量16除以总库数量4=4）取余，因为余值范围0-15，所以取余的范围为0-3 （一个库中表的范围是 table00,table00.....table03）
+> 对表--获得id的ASICC码<br />
+>  同1,2<br />
+>  3,以上获取的余值和每个库中的表的数量（总表数量16除以总库数量4=4）取余，因为余值范围0-15，所以取余的范围为0-3 （一个库中表的范围是 table00,table00.....table03）<br />
 
 
 
-com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.strategy.SnoWalkerComplexShardingDB
+> com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.strategy.SnoWalkerComplexShardingDB<br />
 
-sharding-jdbc查找数据大致流程
-1,application-db-config.properties配置需要分片表的分片键，指定自定义实现的分片算法algorithmClassName
-2,执行sql前判断sql中是否存在分片键，存在则走自定义分片算法的doSharding方法（不存在就查找全库全表），入参为availableTargetNames前面配置所有的库名，shardingValues本次sql里涉及的分片键字段名，字段值和字段所在的表
-前面我们自定义的分片键值的实现（UD+db+table+01+yyMMddHHmmssSSS+机器id+序列号id），可以很清楚知道这是UD用户表，且对应的库表号是多少，
- 拿到库就可以匹配我们在配置文件中配置的对应数据源，接着在查询语句中拼接表号（比如：user01表）查询对应的表数据
+> sharding-jdbc查找数据大致流程<br />
+> 1,application-db-config.properties配置需要分片表的分片键，指定自定义实现的分片算法algorithmClassName<br />
+> 2,执行sql前判断sql中是否存在分片键，存在则走自定义分片算法的doSharding方法（不存在就查找全库全表），入参为availableTargetNames前面配置所有的库名，shardingValues本次sql里涉及的><br /> > 分片键字段名，字段值和字段所在的表<br />
+> 前面我们自定义的分片键值的实现（UD+db+table+01+yyMMddHHmmssSSS+机器id+序列号id），可以很清楚知道这是UD用户表，且对应的库表号是多少，<br />
+ > 拿到库就可以匹配我们在配置文件中配置的对应数据源，接着在查询语句中拼接表号（比如：user01表）查询对应的表数据<br />
