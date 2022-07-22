@@ -12,6 +12,7 @@
 | [跟我学shardingjdbc之自定义分库分表策略-复合分片算法自定义实现](http://wuwenliang.net/2019/03/26/%E8%B7%9F%E6%88%91%E5%AD%A6shardingjdbc%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%AD%96%E7%95%A5-%E5%A4%8D%E5%90%88%E5%88%86%E7%89%87%E7%AE%97%E6%B3%95%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%9E%E7%8E%B0/#qrcode) |
 
 个人心得：
+
 com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.util.StringUtil
 取ASICC码是为了数值运算，因为传进来的主键不是数字
 通过该ASCII码对库取商，对表取余，得到库表下标
@@ -28,6 +29,7 @@ com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.util.StringUtil
 
 
 com.snowalker.shardingjdbc.snowalker.demo.complex.sharding.strategy.SnoWalkerComplexShardingDB
+
 sharding-jdbc查找数据大致流程
 1,application-db-config.properties配置需要分片表的分片键，指定自定义实现的分片算法algorithmClassName
 2,执行sql前判断sql中是否存在分片键，存在则走自定义分片算法的doSharding方法（不存在就查找全库全表），入参为availableTargetNames前面配置所有的库名，shardingValues本次sql里涉及的分片键字段名，字段值和字段所在的表
